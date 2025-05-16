@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ElectroZ - Tienda Juvenil de Tecnología</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f9faff;
+    color: #111;
+    margin: 0; padding: 0;
+  }
+  header {
+    background: #0d47a1;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+  }
+  h1 {
+    margin: 0;
+    font-weight: 700;
+  }
+  main {
+    max-width: 960px;
+    margin: 1rem auto;
+    padding: 0 1rem;
+  }
+  .products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
+    gap: 1rem;
+  }
+  .product {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgb(13 71 161 / 0.2);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+  .product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgb(13 71 161 / 0.4);
+  }
+  .product img {
+    width: 100%;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    transition: transform 0.3s ease;
+  }
+  .product img:hover {
+    transform: scale(1.1);
+  }
+  .product h3 {
+    margin: 0.5rem 0 0.3rem 0;
+    font-size: 1.1rem;
+  }
+  .product p {
+    font-size: 0.9rem;
+    color: #555;
+    flex-grow: 1;
+  }
+  .product .price {
+    font-weight: 700;
+    margin-top: 0.5rem;
+    color: #0d47a1;
+  }
+  button {
+    background: #0d47a1;
+    border: none;
+    color: white;
+    padding: 0.6rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 0.5rem;
+  }
+  button:hover {
+    background: #09418a;
+  }
+  .cart {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: white;
+    border: 2px solid #0d47a1;
+    border-radius: 8px;
+    width: 280px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 0 15px rgb(13 71 161 / 0.3);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .cart h2 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    color: #0d47a1;
+  }
+  .cart-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.3rem;
+  }
+  .cart-item button {
+    background: #e53935;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8rem;
+  }
+  .checkout {
+    margin-top: 1rem;
+  }
+  label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 600;
+  }
+  input[type="checkbox"] {
+    margin-right: 0.5rem;
+  }
+  footer {
+    margin: 2rem 0;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #777;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ElectroZ - Tu tienda juvenil de tecnología</h1>
+</header>
+
+<main>
+  <section class="products">
+    <article class="product" data-id="1" data-name="Cargador inalámbrico rápido" data-price="12990">
+      <img src="https://i.imgur.com/v2QX81U.png" alt="Cargador inalámbrico rápido" />
+      <h3>Cargador inalámbrico rápido</h3>
+      <p>Compatible con Android y iPhone. Diseño moderno y liviano. Incluye cable USB-C.</p>
+      <div class="price">$12.990 CLP</div>
+      <button class="add-to-cart">Agregar al carrito</button>
+    </article>
+
+    <article class="product" data-id="2" data-name="Auriculares Bluetooth deportivos" data-price="14990">
+      <img src="https://i.imgur.com/6Wt1skg.png" alt="Auriculares Bluetooth deportivos" />
+      <h3>Auriculares Bluetooth deportivos</h3>
+      <p>Resistentes al agua, con micrófono. Conexión rápida y batería de larga duración. Estuche de carga incluido.</p>
+      <div class="price">$14.990 CLP</div>
+      <button class="add-to-cart">Agregar al carrito</button>
+    </article>
+
+    <article class="product" data-id="3" data-name="Cable trenzado reforzado USB-C / iPhone" data-price="5990">
+      <img src="https://i.imgur.com/M6VYFss.png" alt="Cable trenzado reforzado USB-C / iPhone" />
+      <h3>Cable trenzado reforzado USB-C / iPhone</h3>
+      <p>1.2 metros, carga rápida. Alta durabilidad, colores modernos.</p>
+      <div class="price">$5.990 CLP</div>
+      <button class="add-to-cart">Agregar al carrito</button>
+    </article>
+  </section>
+
+  <aside class="cart" aria-label="Carrito de compras">
+    <h2>Carrito</h2>
+    <div class="cart-items"></div>
+    <label><input type="checkbox" id="need-invoice" /> ¿Necesitas boleta? Marca esta opción si quieres que te la enviemos por correo.</label>
+    <div class="checkout">
+      <div>Total: $<span id="total-price">0</span> CLP</div>
+      <button id="checkout-btn">Proceder al pago</button>
+    </div>
+  </aside>
+</main>
+
+<footer>
+  &copy; 2025 ElectroZ - David Alejandro Muñoz Orellana - RUT 19.344.564-0
+</footer>
+
+<script>
+  const cart = {};
+  const cartItemsContainer = document.querySelector('.cart-items');
+  const totalPriceElement = document.getElementById('total-price');
+  const checkoutBtn = document.getElementById('checkout-btn');
+  const needInvoiceCheckbox = document.getElementById('need-invoice');
+
+  function updateCart() {
+    cartItemsContainer.innerHTML = '';
+    let total = 0;
+    Object.values(cart).forEach(item => {
+      const div = document.createElement('div');
+      div.classList.add('cart-item');
+      div.innerHTML = \`
+        <span>\${item.name} x\${item.qty}</span>
+        <span>$\${(item.price * item.qty).toLocaleString('es-CL')} CLP</span>
+        <button data-id="\${item.id}">X</button>
+      \`;
+      cartItemsContainer.appendChild(div);
+      total += item.price * item.qty;
+    });
+    totalPriceElement.textContent = total.toLocaleString('es-CL');
+  }
+
+  document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', () => {
+      const product = button.closest('.product');
+      const id = product.dataset.id;
+      const name = product.dataset.name;
+      const price = parseInt(product.dataset.price);
+
+      if (cart[id]) {
+        cart[id].qty++;
+      } else {
+        cart[id] = { id, name, price, qty: 1 };
+      }
+      updateCart();
+    });
+  });
+
+  cartItemsContainer.addEventListener('click', (e) => {
+    if (e.target.tagName === 'BUTTON') {
+      const id = e.target.dataset.id;
+      if (cart[id]) {
+        cart[id].qty--;
+        if (cart[id].qty === 0) {
+          delete cart[id];
+        }
+        updateCart();
+      }
+    }
+  });
+
+  checkoutBtn.addEventListener('click', () => {
+    if (Object.keys(cart).length === 0) {
+      alert('Tu carrito está vacío, agrega productos para comprar.');
+      return;
+    }
+    const needInvoice = needInvoiceCheckbox.checked;
+    let message = 'Gracias por comprar en ElectroZ.\\n';
+    message += 'Resumen de tu compra:\\n';
+    Object.values(cart).forEach(item => {
+      message += \`\${item.name} x\${item.qty} - $\${(item.price * item.qty).toLocaleString('es-CL')} CLP\\n\`;
+    });
+    message += \`Total: $\${totalPriceElement.textContent} CLP\\n\`;
+    if (needInvoice) {
+      message += 'Solicitaste boleta. Se enviará a tu correo electrónico.';
+    }
+    alert(message);
+  });
